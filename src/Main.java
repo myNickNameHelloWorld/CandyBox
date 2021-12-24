@@ -7,13 +7,9 @@ public class Main {
         boxOne.addCandy(sweets);
         boxOne.addCandy(lollipop);
         boxOne.addCandy(candybar);
-        boxOne.printPriceBox();
-        boxOne.aboutCandy();
-        boxOne.printWeightBox();
-        boxOne.deleteMinWeight(38);
-        boxOne.printWeightBox();
-        boxOne.deleteMinPrice(57.0);
-        boxOne.printPriceBox();
 
+        boxOne.printPriceBox();
+        boxOne.printWeightBox();
+        boxOne.aboutCandy();
     }
 }

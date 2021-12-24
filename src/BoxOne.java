@@ -25,7 +25,7 @@ public class BoxOne implements Box {
         for(int i = 0; i < candies.size(); i++) {
             sumWeight += candies.get(i).getWeight();
         }
-        System.out.println(sumWeight);
+        System.out.println("Общий вес коробки:" + " " + sumWeight + "г");
     }
 
     @Override
@@ -34,13 +34,13 @@ public class BoxOne implements Box {
         for(int i = 0; i < candies.size(); i++) {
             sumPrice += candies.get(i).getPrice();
         }
-        System.out.println(sumPrice);
+        System.out.println("Общая стоимость коробки:" + " " + sumPrice + "р");
     }
 
     @Override
     public void aboutCandy() {
         for(int i = 0; i < candies.size(); i++) {
-            System.out.println(candies.get(i).getAboutCandy());
+            System.out.println("Информация:" + " " + candies.get(i).getAboutCandy());
         }
     }
 
