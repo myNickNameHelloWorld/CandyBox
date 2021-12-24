@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoxOne implements Box {
-    private List<Candy> candies = new ArrayList();
+    private List<Candy> candies = new ArrayList<>();
 
     @Override
     public void addCandy(Candy candy) {
