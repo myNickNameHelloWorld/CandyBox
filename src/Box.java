@@ -14,6 +14,6 @@ public interface Box {
 
     public void deleteMinWeight(int minWeight);
 
-    public void deleteMinPrice(double minPrice);
+    public void deleteMinPrice(int minWeight);
 
 }

@@ -68,15 +68,15 @@ public class BoxOne implements Box {
     }
 
     @Override
-    public void deleteMinPrice(double minPrice) {
+    public void deleteMinPrice(int minWeight) {
         if (candies == null || candies.isEmpty()) {
             return;
         }
-        double sumaPrice = 0;
+        int sumaWeight = 0;
         for (int i = 0; i < candies.size(); i++) {
-            sumaPrice += candies.get(i).getPrice();
+            sumaWeight += candies.get(i).getWeight();
         }
-        while (sumaPrice > minPrice) {
+        while (sumaWeight > minWeight) {
             int index = 0;
             double min = candies.get(0).getPrice();
             for (int i = 0; i < candies.size(); i++) {
@@ -85,7 +85,7 @@ public class BoxOne implements Box {
                     index = i;
                 }
             }
-            sumaPrice = sumaPrice - candies.get(index).getPrice();
+            sumaWeight = sumaWeight - candies.get(index).getWeight();
             candies.remove(index);
         }
     }
