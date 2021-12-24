@@ -22,7 +22,7 @@ public class BoxOne implements Box {
     @Override
     public void printWeightBox() {
         int sumWeight = 0;
-        for(int i = 0; i < candies.size(); i++) {
+        for (int i = 0; i < candies.size(); i++) {
             sumWeight += candies.get(i).getWeight();
         }
         System.out.println("Общий вес коробки:" + " " + sumWeight + "г");
@@ -31,7 +31,7 @@ public class BoxOne implements Box {
     @Override
     public void printPriceBox() {
         double sumPrice = 0;
-        for(int i = 0; i < candies.size(); i++) {
+        for (int i = 0; i < candies.size(); i++) {
             sumPrice += candies.get(i).getPrice();
         }
         System.out.println("Общая стоимость коробки:" + " " + sumPrice + "р");
@@ -39,7 +39,7 @@ public class BoxOne implements Box {
 
     @Override
     public void aboutCandy() {
-        for(int i = 0; i < candies.size(); i++) {
+        for (int i = 0; i < candies.size(); i++) {
             System.out.println("Информация:" + " " + candies.get(i).getAboutCandy());
         }
     }
@@ -49,23 +49,23 @@ public class BoxOne implements Box {
         if (candies == null || candies.isEmpty()) {
             return;
         }
-            int sumaWeight = 0;
-            for (int i = 0; i < candies.size(); i++) {
-                sumaWeight += candies.get(i).getWeight();
-            }
-            while (sumaWeight > minWeight) {
-                int index = 0;
-                int min = candies.get(0).getWeight();
-                for (int i = 0; i < candies.size(); i++) {
-                    if (min > candies.get(i).getWeight()) {
-                        min = candies.get(i).getWeight();
-                        index = i;
-                    }
-                }
-                sumaWeight = sumaWeight - candies.get(index).getWeight();
-                candies.remove(index);
-            }
+        int sumaWeight = 0;
+        for (int i = 0; i < candies.size(); i++) {
+            sumaWeight += candies.get(i).getWeight();
         }
+        while (sumaWeight > minWeight) {
+            int index = 0;
+            int min = candies.get(0).getWeight();
+            for (int i = 0; i < candies.size(); i++) {
+                if (min > candies.get(i).getWeight()) {
+                    min = candies.get(i).getWeight();
+                    index = i;
+                }
+            }
+            sumaWeight = sumaWeight - candies.get(index).getWeight();
+            candies.remove(index);
+        }
+    }
 
     @Override
     public void deleteMinPrice(double minPrice) {
