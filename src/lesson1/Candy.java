@@ -1,3 +1,5 @@
+package lesson1;
+
 public abstract class Candy {
     private String name;
 

@@ -1,3 +1,5 @@
+package lesson1;
+
 public class Candybar extends Candy {
     public Candybar(String name, int weight, double price, String aboutCandy) {
         this.setName(name);

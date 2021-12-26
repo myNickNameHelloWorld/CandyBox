@@ -1,3 +1,5 @@
+package lesson1;
+
 public interface Box {
 
     public void addCandy(Candy candy);
