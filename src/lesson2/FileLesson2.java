@@ -3,31 +3,36 @@ package lesson2;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileLesson2 {
-    public static int maxFrequentlyWordsUpdate(int count, int maxCount, List<String> maxFrequentlyWords, String word) {
+    public static int maxFrequentlyWordsUpdate(int count, int maxCount, Set<String> maxFrequentlyWords, String word) {
         if (count >= maxCount) {
             if (count > maxCount) {
-                maxFrequentlyWords = new ArrayList<>();
+                maxFrequentlyWords = new HashSet<>();
+                maxCount = count;
             }
-            maxCount = count;
-            if (!maxFrequentlyWords.contains(word)) {
-                maxFrequentlyWords.add(word);
-            }
+            maxFrequentlyWords.add(word);
         }
         return maxCount;
     }
 
     public static void countWords(String filePath) {
         try {
-            Stream<String> inputStrings = Files.lines(Path.of(filePath).toAbsolutePath());
+            Path path = Path.of(filePath);
+            if (!Files.exists(path)) {
+                path = Path.of("src/").resolve(path);
+            } else {
+                path = path.toAbsolutePath();
+            }
+            Stream<String> inputStrings = Files.lines(path);
             List<String> sortedWords = inputStrings
-                    .map(l -> l.split("[^a-zA-Zа-яА-Я]+"))
+                    .map(l -> l.split("[^a-zA-Zа-яА-Я0-9]+"))
                     .flatMap(Arrays::stream)
                     .map(String::toLowerCase)
                     .filter(s -> !s.equals(""))
@@ -36,7 +41,7 @@ public class FileLesson2 {
             String prevWord = sortedWords.get(0);
             int count = 0;
             int maxCount = 0;
-            List<String> maxFrequentlyWords = new ArrayList<>();
+            Set<String> maxFrequentlyWords = new HashSet<>();
             for (int i = 0; i < sortedWords.size(); i++) {
                 if (prevWord.equals(sortedWords.get(i))) {
                     count++;
@@ -45,7 +50,7 @@ public class FileLesson2 {
                         System.out.println(sortedWords.get(i) + "  x" + count);
                     }
                 } else {
-                    maxCount = maxFrequentlyWordsUpdate(count, maxCount, maxFrequentlyWords, sortedWords.get(i));
+                    maxCount = maxFrequentlyWordsUpdate(count, maxCount, maxFrequentlyWords, prevWord);
                     System.out.println(prevWord + "  x" + count);
                     count = 1;
                     prevWord = sortedWords.get(i);
