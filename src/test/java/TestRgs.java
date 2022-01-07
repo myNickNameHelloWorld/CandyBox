@@ -3,10 +3,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,8 +17,8 @@ public class TestRgs {
 
     @Before
     public void before() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
-        webDriver = new ChromeDriver();
+        System.setProperty("webdriver.gecko.driver", "src/test/resources/geckodriver");
+        webDriver = new FirefoxDriver();
         webDriver.manage().window().maximize();
         wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
         webDriver.get("https://rgs.ru/");
@@ -67,26 +66,21 @@ public class TestRgs {
         fillInputFieldPhone(webDriver.findElement(By.xpath(String.format(xPath, "+7 XXX XXX XX XX"))), "9997775533");
         fillInputField(webDriver.findElement(By.xpath(String.format(xPath, "hello@email.com"))), "qwertyqwerty");
         fillInputField(webDriver.findElement(By.xpath(String.format(xPath, "Введите"))), "Спрингфилд");
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='checkbox-body form__checkbox']")));
 
         //Клик по кнопке "Обработка персональных данных"
         WebElement checkBox = webDriver.findElement(By.xpath("//div[@class='checkbox-body form__checkbox']"));
-        scrollToElement(checkBox);
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         checkBox.click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='form__button-submit btn--basic']")));
+
 
         //Клик по кнопке "Свяжитесь со мной"
         WebElement clickSubmit = webDriver.findElement(By.xpath("//button[@class='form__button-submit btn--basic']"));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='form__button-submit btn--basic']")));
         clickSubmit.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name=\"userEmail\"]/../../span")));
 
         //Проверка, что у поля email присутствует сообщение об ошибке
-        WebElement errorAlert = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name=\"userEmail\"]/../../span")));
+        WebElement errorAlert = webDriver.findElement(By.xpath("//input[@name=\"userEmail\"]/../../span"));
         Assert.assertEquals("Проверка ошибки у почты", "Введите корректный адрес электронной почты", errorAlert.getText());
     }
 
@@ -96,7 +90,6 @@ public class TestRgs {
     }
 
     private void fillInputField(WebElement webElement, String value) {
-        scrollToElement(webElement);
         waitUtilElementToBeClickable(webElement);
         webElement.sendKeys(value);
         boolean checkFlag = wait.until(ExpectedConditions.attributeContains(webElement, "value", value));
@@ -105,18 +98,10 @@ public class TestRgs {
 
     private void fillInputFieldPhone(WebElement webElement, String value) {
         String xPathPhone = "//input[@placeholder='%s']";
-        scrollToElement(webElement);
         waitUtilElementToBeClickable(webElement);
         webElement.sendKeys(value);
         String phone = webDriver.findElement(By.xpath(String.format(xPathPhone, "+7 XXX XXX XX XX"))).getAttribute("value");
         Assert.assertEquals("Поле заполнено некорректно", "+7 (999) 777-5533", phone);
-    }
-
-
-    private void scrollToElement(WebElement webElement) {
-        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) webDriver;
-        javascriptExecutor.executeScript("arguments[0].scrollIntoView();", webElement);
-        //javascriptExecutor.executeScript("window.scrollBy(0,1200)");
     }
 
     private void waitUtilElementToBeClickable(WebElement webElement) {
