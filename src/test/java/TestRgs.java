@@ -81,7 +81,8 @@ public class TestRgs extends TestSettings {
         waitUtilElementToBeClickable(webElement);
         webElement.sendKeys(value);
         String phone = webDriver.findElement(By.xpath(String.format(xPathPhone, "+7 XXX XXX XX XX"))).getAttribute("value");
-        Assertions.assertEquals("+7 (999) 777-5533", phone, "Поле заполнено некорректно");
+        String valueExpected = String.format("+7 (%s) %s-%s", value.substring(0,3), value.substring(3,6), value.substring(6,10));
+        Assertions.assertEquals(valueExpected, phone, "Поле заполнено некорректно");
     }
 
     private void waitUtilElementToBeClickable(WebElement webElement) {
