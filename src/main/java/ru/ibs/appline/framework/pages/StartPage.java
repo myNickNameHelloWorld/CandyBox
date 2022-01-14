@@ -1,6 +1,7 @@
 package ru.ibs.appline.framework.pages;
 
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -17,7 +18,12 @@ public class StartPage extends BasePage {
 
 
     public StartPage cookiesClose() {
-        waitUtilVisibilityOfElement(cookiesClose).click();
+        try {
+            waitUtilVisibilityOfElement(cookiesClose).click();
+        } catch (TimeoutException ignore) {
+
+        }
+
         return pageManager.getStartPage();
     }
 
