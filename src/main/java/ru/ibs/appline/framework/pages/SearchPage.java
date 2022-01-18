@@ -20,7 +20,7 @@ public class SearchPage extends BasePage {
 
     public ProductPage clickProductInSearch(String nameProductForSearch) {
         waitUntilElementToBeClickable(forWait);
-        for(WebElement element: searchProductsList) {
+        for (WebElement element : searchProductsList) {
             if (element.getText().toLowerCase().contains(nameProductForSearch.toLowerCase())) {
                 waitUntilElementToBeClickable(element);
                 element.click();

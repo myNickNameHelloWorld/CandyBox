@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.ibs.appline.framework.product.Product;
 
+import java.util.List;
+
 public class BucketPage extends BasePage {
     @FindBy(xpath = "//span[@class='base-ui-radio-button__icon base-ui-radio-button__icon_checked']")
     private WebElement warrantyPeriod;
@@ -34,49 +36,88 @@ public class BucketPage extends BasePage {
     @FindBy(xpath = "//a[contains(text(), 'Detroit')]/../../div[contains(@class, 'product-name')]/a")
     private WebElement priceOfProduct;
 
-    public BucketPage checkWarrantyPeriod() {
-        Assertions.assertTrue(warrantyPeriod.getText().contains("24"), "Гарантия не выбрана");
+    @FindBy(xpath = "//button[@class='buy-button']/../../div/div[contains(@class, 'info-block')]/div/div[@class='price']/div/span[@class='price__current']")
+    private WebElement forSearch;
+
+    @FindBy(xpath = "//a[@class='cart-items__product-name-link']")
+    private List<WebElement> products;
+
+    public BucketPage checkWarrantyPeriod(String month) {
+        Assertions.assertTrue(warrantyPeriod.getText().contains(month), "Гарантия не выбрана");
         return pageManager.getBucketPage();
     }
 
     public BucketPage checkSumPrice() {
-        String s = priceSum.getText().replaceAll("[^0-9]","");
-        int priceSumInt = Integer.parseInt(s);
-        int sumOfProductsInCart = Product.list.get(1).getPrice() + Product.list.get(2).getPrice();
+        String s = priceAfterAddTwo.getText();
+        int priceSumInt = strToInt(s);
+        int sumOfProductsInCart = Product.list.get(2).getPrice() + Product.list.get(4).getPrice();
         Assertions.assertEquals(priceSumInt, sumOfProductsInCart, "Сумма не совпадает");
         return pageManager.getBucketPage();
     }
-    public BucketPage deleteDetroit() {
-        detroitDelete.click();
+
+    public BucketPage deleteDetroit(String name) {
+        for (WebElement element : products) {
+            if (element.getText().toLowerCase().contains(name.toLowerCase())) {
+                WebElement element1 = element.findElement(By.xpath("./../../div/div[contains(@class, 'product-wrapper')]/button[contains(text(), 'Удалить')]"));
+                Product.list.remove(Product.list.size() - 1);
+                element1.click();
+                return pageManager.getBucketPage().checkPriceAfterDelete();
+            }
+        }
+        Assertions.fail("Ввели некорректное имя продукта");
         return pageManager.getBucketPage();
-//        Product.list.remove(Product.list.size() - 1);
     }
 
     public BucketPage checkPriceAfterDelete() {
-        String s = priceSum.getText().replaceAll("[^0-9]","");
-        int priceSumInt = Integer.parseInt(s);
-        Assertions.assertEquals(priceSumInt, Product.list.get(1).getPrice(), "Сумма не совпадает");
+        sleep(1000);
+        String s = priceAfterAddTwo.getText();
+        int priceSumInt = strToInt(s);
+        Assertions.assertEquals(priceSumInt, Product.list.get(2).getPrice(), "Сумма не совпадает");
         return pageManager.getBucketPage();
     }
 
     public BucketPage addProduct(int value) {
-        scrollToElementJs(scrollToElementJs);
-        for (int i = 0; i > value; i++) {
+        for (int i = 0; i < value; i++) {
             addTwoProduct.click();
-            //WAIIT
+            Product.list.add(Product.list.get(2));
+            sleep(2000);
         }
         return pageManager.getBucketPage();
     }
 
     public BucketPage checkPriceAfterAddTwo(int value) {
-        String s = priceAfterAddTwo.getText().replaceAll("[^0-9]","");
-        int priceAfterAddTwoInt = Integer.parseInt(s);
-        Assertions.assertEquals(priceAfterAddTwoInt, (Product.list.get(1).getPrice() * value), "Сумма не совпадает");
+        waitUntilVisibilityOf(priceAfterAddTwo);
+        String s = priceAfterAddTwo.getText();
+        int priceAfterAddTwoInt = strToInt(s);
+        Assertions.assertEquals(priceAfterAddTwoInt, (Product.list.get(2).getPrice() * (value + 1)), "Сумма после добавления " + value + " элементов неккоректна");
         return pageManager.getBucketPage();
     }
 
-    public BucketPage returnDetroit() {
+    public BucketPage returnDetroit(String name) {
+        scrollToElementJs(clickReturnJs);
+        waitUntilElementToBeClickable(clickReturnJs);
         clickElementJs(clickReturnJs);
+        sleep(1000);
+
+        for (WebElement element : products) {
+            if (element.getText().toLowerCase().contains(name.toLowerCase())) {
+                WebElement elemnt1 = element.findElement(By.xpath("./../../../../../div[contains(@class, 'block-amount')]/div[contains(@class, 'product-price')]/div"));
+                String str1 = elemnt1.getText();
+                int str1Int = strToInt(str1);
+                Product.list.add(new Product(name, str1Int));
+                return pageManager.getBucketPage().checkSumPriceAfterReturn();
+            }
+        }
+        Assertions.fail("Ввели некорректное имя продукта");
+        return pageManager.getBucketPage();
+    }
+
+    public BucketPage checkSumPriceAfterReturn() {
+        waitUntilElementToBeClickable(priceAfterAddTwo);
+        String s = priceAfterAddTwo.getText();
+        int priceSumInt = strToInt(s);
+        int sumOfProductsInCart = (Product.list.get(2).getPrice() * (Product.list.size() - 5)) + Product.list.get(Product.list.size() - 1).getPrice();
+        Assertions.assertEquals(priceSumInt, sumOfProductsInCart, "Сумма не совпадает");
         return pageManager.getBucketPage();
     }
 }

@@ -17,7 +17,6 @@ public class BasePage {
     protected WebDriverWait wait = new WebDriverWait(driverManager.getWebDriver(), Duration.ofSeconds(10), Duration.ofMillis(1000));
 
 
-
     public BasePage() {
         PageFactory.initElements(driverManager.getWebDriver(), this);
     }
@@ -49,8 +48,16 @@ public class BasePage {
         return Integer.parseInt(str);
     }
 
-    public void waitUntilSwitchText(WebElement element) {
+    protected void waitUntilSwitchText(WebElement element) {
         String str = element.getText();
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(element, str)));
+    }
+
+    protected void sleep(int millsec) {
+        try {
+            Thread.sleep(millsec);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

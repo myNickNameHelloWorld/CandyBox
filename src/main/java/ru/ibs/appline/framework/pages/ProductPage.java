@@ -1,12 +1,12 @@
 package ru.ibs.appline.framework.pages;
 
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.ibs.appline.framework.product.Product;
+
+import java.util.List;
 
 public class ProductPage extends BasePage {
 
@@ -19,8 +19,8 @@ public class ProductPage extends BasePage {
     @FindBy(xpath = "//div[@class='additional-sales-tabs__title']")
     private WebElement warrantyMenu;
 
-    @FindBy(xpath = "//input[@type='radio' and @value='1']/..")
-    private WebElement warrantyTwoYearsClick;
+    @FindBy(xpath = "//label[contains(@class, 'ui-radio__item')]")
+    private List<WebElement> selectWarranty;
 
     @FindBy(xpath = "//div[contains(@class,'top__buy')]/div/div/div[contains(@class, 'price_active')]")
     private WebElement priceWithWarranty;
@@ -36,8 +36,6 @@ public class ProductPage extends BasePage {
     private WebElement priceCart;
 
 
-
-
     public ProductPage savePrice() {
         waitUntilElementToBeClickable(clickBuy);
         String price1 = savePrice.getText();
@@ -47,11 +45,18 @@ public class ProductPage extends BasePage {
         return pageManager.getProductPage();
     }
 
-    public ProductPage clickWarranty() {
+    public ProductPage clickWarranty(String month) {
         waitUntilElementToBeClickable(warrantyMenu);
         warrantyMenu.click();
-        waitUntilElementToBeClickable(warrantyTwoYearsClick);
-        warrantyTwoYearsClick.click();
+        //waitUntilElementToBeClickable(selectWarranty.get(0));
+        for (WebElement warranty : selectWarranty) {
+            if (warranty.getText().toLowerCase().contains(month)) {
+                waitUntilElementToBeClickable(warranty);
+                warranty.click();
+                return pageManager.getProductPage().savePriceWithWarranty();
+            }
+        }
+        Assertions.fail("Гарантия в " + month + "мес. отсутствует");
         return pageManager.getProductPage();
     }
 
@@ -79,12 +84,13 @@ public class ProductPage extends BasePage {
         waitUntilSwitchText(priceCart);
         String sumCart = priceCart.getText();
         int sumCartInt = strToInt(sumCart);
-        int sumOfProducts = Product.list.get(0).getPrice();
+        int sumOfProducts = Product.list.get(2).getPrice() + Product.list.get(4).getPrice();
         Assertions.assertEquals(sumCartInt, sumOfProducts, "Цена не совпадает");
         return pageManager.getProductPage();
     }
 
     public BucketPage goToTheCart() {
+        waitUntilElementToBeClickable(priceCart);
         priceCart.click();
         return pageManager.getBucketPage();
     }
