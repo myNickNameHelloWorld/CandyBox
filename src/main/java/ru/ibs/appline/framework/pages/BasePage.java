@@ -1,8 +1,8 @@
 package ru.ibs.appline.framework.pages;
 
-import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,35 +16,41 @@ public class BasePage {
     protected PageManager pageManager = PageManager.getInstance();
     protected WebDriverWait wait = new WebDriverWait(driverManager.getWebDriver(), Duration.ofSeconds(10), Duration.ofMillis(1000));
 
+
+
     public BasePage() {
         PageFactory.initElements(driverManager.getWebDriver(), this);
     }
 
-    protected void fillInputField(WebElement webElement, String value) {
-        waitUtilElementToBeClickable(webElement);
-        webElement.sendKeys(value);
-        boolean checkFlag = wait.until(ExpectedConditions.attributeContains(webElement, "value", value));
-        Assertions.assertTrue(checkFlag, "Поле заполнено некорректно");
+
+    protected void scrollToElementJs(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driverManager.getWebDriver();
+        js.executeScript("arguments[0].scrollIntoView();", element);
     }
 
-    protected void fillInputFieldPhone(WebElement webElement, String value) {
-        String xPathPhone = "//input[@placeholder='%s']";
-        waitUtilElementToBeClickable(webElement);
-        webElement.sendKeys(value);
-        String phone = driverManager.getWebDriver().findElement(By.xpath(String.format(xPathPhone, "+7 XXX XXX XX XX"))).getAttribute("value");
-        String valueExpected = String.format("+7 (%s) %s-%s", value.substring(0, 3), value.substring(3, 6), value.substring(6, 10));
-        Assertions.assertEquals(valueExpected, phone, "Поле заполнено некорректно");
+    protected WebElement clickElementJs(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driverManager.getWebDriver();
+        js.executeScript("arguments[0].click();", element);
+        return element;
     }
 
-    protected WebElement waitUtilElementToBeClickable(WebElement webElement) {
-        return wait.until(ExpectedConditions.elementToBeClickable(webElement));
+    protected WebElement waitUntilElementToBeClickable(WebElement element) {
+        return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    protected WebElement waitUtilVisibilityOfElement(WebElement webElement) {
-        return wait.until(ExpectedConditions.visibilityOf(webElement));
+    protected void waitUntilVisibilityOf(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    protected Boolean waitUtilInvisibilityOfElement(WebElement webElement) {
-        return wait.until(ExpectedConditions.invisibilityOf(webElement));
+    protected Actions action = new Actions(driverManager.getWebDriver());
+
+    protected int strToInt(String str) {
+        str = str.replaceAll("[^0-9]", "");
+        return Integer.parseInt(str);
+    }
+
+    public void waitUntilSwitchText(WebElement element) {
+        String str = element.getText();
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(element, str)));
     }
 }

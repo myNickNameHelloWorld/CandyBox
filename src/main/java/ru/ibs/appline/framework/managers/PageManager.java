@@ -1,14 +1,16 @@
 package ru.ibs.appline.framework.managers;
 
-import ru.ibs.appline.framework.pages.CompaniesPage;
-import ru.ibs.appline.framework.pages.HealthInsurancePage;
+import ru.ibs.appline.framework.pages.BucketPage;
+import ru.ibs.appline.framework.pages.ProductPage;
+import ru.ibs.appline.framework.pages.SearchPage;
 import ru.ibs.appline.framework.pages.StartPage;
 
 public class PageManager {
     private static PageManager INSTANCE;
     private StartPage startPage;
-    private CompaniesPage companiesPage;
-    private HealthInsurancePage healthInsurancePage;
+    private ProductPage productPage;
+    private SearchPage searchPage;
+    private BucketPage bucketPage;
 
 
     private PageManager() {
@@ -29,17 +31,24 @@ public class PageManager {
         return startPage;
     }
 
-    public CompaniesPage getCompaniesPage() {
-        if (companiesPage == null) {
-            companiesPage = new CompaniesPage();
+    public ProductPage getProductPage() {
+        if (productPage == null) {
+            productPage = new ProductPage();
         }
-        return companiesPage;
+        return productPage;
     }
 
-    public HealthInsurancePage getHealthInsurancePage() {
-        if (healthInsurancePage == null) {
-            healthInsurancePage = new HealthInsurancePage();
+    public SearchPage getSearchPage() {
+        if (searchPage == null) {
+            searchPage = new SearchPage();
         }
-        return healthInsurancePage;
+        return searchPage;
+    }
+
+    public BucketPage getBucketPage() {
+        if (bucketPage == null) {
+            bucketPage = new BucketPage();
+        }
+        return bucketPage;
     }
 }
