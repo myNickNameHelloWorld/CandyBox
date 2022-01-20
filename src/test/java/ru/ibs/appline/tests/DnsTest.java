@@ -1,6 +1,7 @@
 package ru.ibs.appline.tests;
 
 import org.junit.jupiter.api.Test;
+import ru.ibs.appline.framework.product.Product;
 import ru.ibs.appline.tests.base.BaseDnsTests;
 
 public class DnsTest extends BaseDnsTests {
@@ -26,8 +27,13 @@ public class DnsTest extends BaseDnsTests {
                 .deleteDetroit("Detroit")
                 .checkPriceAfterDelete()
                 .addProduct(2)
-                .checkPriceAfterAddTwo(2)
+                .checkPriceAfterAdd(2)
                 .returnDetroit("Detroit")
                 .checkSumPriceAfterReturn();
+
+        for (Product product: Product.list) {
+            System.out.println(product.getName() + " " + product.getPrice());
+
+        }
     }
 }

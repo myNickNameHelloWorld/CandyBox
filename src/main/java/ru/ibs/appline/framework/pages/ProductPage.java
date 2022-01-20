@@ -53,7 +53,7 @@ public class ProductPage extends BasePage {
             if (warranty.getText().toLowerCase().contains(month)) {
                 waitUntilElementToBeClickable(warranty);
                 warranty.click();
-                return pageManager.getProductPage().savePriceWithWarranty();
+                return pageManager.getProductPage();
             }
         }
         Assertions.fail("Гарантия в " + month + "мес. отсутствует");
@@ -84,7 +84,7 @@ public class ProductPage extends BasePage {
         waitUntilSwitchText(priceCart);
         String sumCart = priceCart.getText();
         int sumCartInt = strToInt(sumCart);
-        int sumOfProducts = Product.list.get(2).getPrice() + Product.list.get(4).getPrice();
+        int sumOfProducts = Product.list.get(1).getPrice() + Product.list.get(2).getPrice();
         Assertions.assertEquals(sumCartInt, sumOfProducts, "Цена не совпадает");
         return pageManager.getProductPage();
     }

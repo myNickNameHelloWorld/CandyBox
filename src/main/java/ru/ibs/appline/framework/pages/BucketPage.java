@@ -50,7 +50,7 @@ public class BucketPage extends BasePage {
     public BucketPage checkSumPrice() {
         String s = priceAfterAddTwo.getText();
         int priceSumInt = strToInt(s);
-        int sumOfProductsInCart = Product.list.get(2).getPrice() + Product.list.get(4).getPrice();
+        int sumOfProductsInCart = Product.list.get(1).getPrice() + Product.list.get(2).getPrice();
         Assertions.assertEquals(priceSumInt, sumOfProductsInCart, "Сумма не совпадает");
         return pageManager.getBucketPage();
     }
@@ -61,7 +61,7 @@ public class BucketPage extends BasePage {
                 WebElement element1 = element.findElement(By.xpath("./../../div/div[contains(@class, 'product-wrapper')]/button[contains(text(), 'Удалить')]"));
                 Product.list.remove(Product.list.size() - 1);
                 element1.click();
-                return pageManager.getBucketPage().checkPriceAfterDelete();
+                return pageManager.getBucketPage();
             }
         }
         Assertions.fail("Ввели некорректное имя продукта");
@@ -72,20 +72,20 @@ public class BucketPage extends BasePage {
         sleep(1000);
         String s = priceAfterAddTwo.getText();
         int priceSumInt = strToInt(s);
-        Assertions.assertEquals(priceSumInt, Product.list.get(2).getPrice(), "Сумма не совпадает");
+        Assertions.assertEquals(priceSumInt, Product.list.get(1).getPrice(), "Сумма не совпадает");
         return pageManager.getBucketPage();
     }
 
     public BucketPage addProduct(int value) {
         for (int i = 0; i < value; i++) {
             addTwoProduct.click();
-            Product.list.add(Product.list.get(2));
+            Product.list.add(Product.list.get(1));
             sleep(2000);
         }
         return pageManager.getBucketPage();
     }
 
-    public BucketPage checkPriceAfterAddTwo(int value) {
+    public BucketPage checkPriceAfterAdd(int value) {
         waitUntilVisibilityOf(priceAfterAddTwo);
         String s = priceAfterAddTwo.getText();
         int priceAfterAddTwoInt = strToInt(s);
@@ -105,7 +105,7 @@ public class BucketPage extends BasePage {
                 String str1 = elemnt1.getText();
                 int str1Int = strToInt(str1);
                 Product.list.add(new Product(name, str1Int));
-                return pageManager.getBucketPage().checkSumPriceAfterReturn();
+                return pageManager.getBucketPage();
             }
         }
         Assertions.fail("Ввели некорректное имя продукта");
@@ -116,7 +116,7 @@ public class BucketPage extends BasePage {
         waitUntilElementToBeClickable(priceAfterAddTwo);
         String s = priceAfterAddTwo.getText();
         int priceSumInt = strToInt(s);
-        int sumOfProductsInCart = (Product.list.get(2).getPrice() * (Product.list.size() - 5)) + Product.list.get(Product.list.size() - 1).getPrice();
+        int sumOfProductsInCart = (Product.list.get(1).getPrice() * (Product.list.size() - 2)) + Product.list.get(Product.list.size() - 1).getPrice();
         Assertions.assertEquals(priceSumInt, sumOfProductsInCart, "Сумма не совпадает");
         return pageManager.getBucketPage();
     }

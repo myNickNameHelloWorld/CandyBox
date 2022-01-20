@@ -24,7 +24,7 @@ public class SearchPage extends BasePage {
             if (element.getText().toLowerCase().contains(nameProductForSearch.toLowerCase())) {
                 waitUntilElementToBeClickable(element);
                 element.click();
-                return pageManager.getProductPage().savePrice();
+                return pageManager.getProductPage();
             }
         }
         Assertions.fail("Товар с названием \"" + nameProductForSearch + "\" не найден.");
