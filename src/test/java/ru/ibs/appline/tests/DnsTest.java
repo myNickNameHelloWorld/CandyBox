@@ -14,7 +14,7 @@ public class DnsTest extends BaseDnsTests {
                 .clickProductInSearch("Консоль")
                 .savePrice()
                 .clickWarranty("24")
-                .savePriceWithWarranty()
+                //.savePriceWithWarranty()
                 .clickBuy()
                 .searchFromProductPage("Detroit")
                 .clickProductInSearch("Detroit")
@@ -32,8 +32,7 @@ public class DnsTest extends BaseDnsTests {
                 .checkSumPriceAfterReturn();
 
         for (Product product: Product.list) {
-            System.out.println(product.getName() + " " + product.getPrice());
-
+            System.out.println(product.getName() + " / " + product.getPrice() + " / " + product.getWarranty());
         }
     }
 }

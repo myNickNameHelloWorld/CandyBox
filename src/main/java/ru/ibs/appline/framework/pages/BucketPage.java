@@ -19,7 +19,7 @@ public class BucketPage extends BasePage {
     private WebElement detroitDelete;
 
     @FindBy(xpath = "//div[@class='count-buttons']/button[contains(@class, 'plus')]/i")
-    WebElement addTwoProduct;
+    private WebElement addTwoProduct;
 
     @FindBy(xpath = "//div[@class = 'buttons']//span[@class = 'cart-link__price']")
     private WebElement priceAfterAddTwo;

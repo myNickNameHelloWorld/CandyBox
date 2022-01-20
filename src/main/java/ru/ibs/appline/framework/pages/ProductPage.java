@@ -1,6 +1,7 @@
 package ru.ibs.appline.framework.pages;
 
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,10 +31,17 @@ public class ProductPage extends BasePage {
 
     @FindBy(xpath = "//nav[@id='header-search']/div/div/form/div/input")
     private WebElement search;
-    @FindBy(xpath = "//div[@class='header__login']/../div[@class='buttons']/a[@href='/order/begin/']/span[@class='cart-link__lbl']/span[@class='cart-link__price']")
-    private WebElement forWaitXpath;
+
     @FindBy(xpath = "//div[@class = 'buttons']//span[@class = 'cart-link__price']")
     private WebElement priceCart;
+
+    @FindBy(xpath = "//a[contains(@class, 'button-ui button-ui_white')]")
+    private WebElement checkOnWarranty;
+
+    @FindBy(xpath = "//div[@class='additional-sales-tabs__titles-wrap']")
+    private WebElement warrantyAndOtherMenu;
+
+
 
 
     public ProductPage savePrice() {
@@ -45,14 +53,21 @@ public class ProductPage extends BasePage {
         return pageManager.getProductPage();
     }
 
+
     public ProductPage clickWarranty(String month) {
-        waitUntilElementToBeClickable(warrantyMenu);
-        warrantyMenu.click();
-        //waitUntilElementToBeClickable(selectWarranty.get(0));
+        waitUntilElementToBeClickable(checkOnWarranty);
+        Assertions.assertTrue(warrantyAndOtherMenu.getText().contains("Гарантия"), "Гарантия на товар не предусмотрена");
+        WebElement warrantyMenuClick = checkOnWarranty.findElement(By.xpath("./../../../../div/div[contains(text(), 'Гарантия')]"));
+        warrantyMenuClick.click();
         for (WebElement warranty : selectWarranty) {
             if (warranty.getText().toLowerCase().contains(month)) {
                 waitUntilElementToBeClickable(warranty);
                 warranty.click();
+                waitUntilVisibilityOf(priceWithWarranty);
+                String price1 = savePrice.getText();
+                int priceInt = strToInt(price1);
+                String name = nameProduct.getText();
+                Product.list.add(new Product(name, priceInt, warranty.getText()));
                 return pageManager.getProductPage();
             }
         }
@@ -60,11 +75,11 @@ public class ProductPage extends BasePage {
         return pageManager.getProductPage();
     }
 
-    public ProductPage savePriceWithWarranty() {
-        waitUntilVisibilityOf(priceWithWarranty);
-        savePrice();
-        return pageManager.getProductPage();
-    }
+//    public ProductPage savePriceWithWarranty() {
+//        waitUntilVisibilityOf(priceWithWarranty);
+//        savePrice();
+//        return pageManager.getProductPage();
+//    }
 
     public ProductPage clickBuy() {
 
