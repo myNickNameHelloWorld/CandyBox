@@ -9,14 +9,9 @@ import ru.ibs.appline.framework.product.Product;
 import java.util.List;
 
 public class BucketPage extends BasePage {
+
     @FindBy(xpath = "//span[@class='base-ui-radio-button__icon base-ui-radio-button__icon_checked']")
     private WebElement warrantyPeriod;
-
-    @FindBy(xpath = "//div[contains(@class, 'additionals-item')]/../div/div[contains(@class,'block-amount')]/div/div[@class='price']/div/span")
-    private WebElement priceSum;
-
-    @FindBy(xpath = "//a[contains(text(), 'Detroit')]/../../div[contains(@class, 'menu-product')]/div[contains(@class, 'wrapper')]/button[contains(text(), 'Удалить')]")
-    private WebElement detroitDelete;
 
     @FindBy(xpath = "//div[@class='count-buttons']/button[contains(@class, 'plus')]/i")
     private WebElement addTwoProduct;
@@ -24,23 +19,12 @@ public class BucketPage extends BasePage {
     @FindBy(xpath = "//div[@class = 'buttons']//span[@class = 'cart-link__price']")
     private WebElement priceAfterAddTwo;
 
-    @FindBy(xpath = "//h1[contains(text(), 'Корзина')]")
-    private WebElement scrollToElementJs;
-
     @FindBy(xpath = "//span[contains(@class, 'print')]/span")
     private WebElement clickReturnJs;
 
-    @FindBy(xpath = "//a[contains(text(), 'Detroit')]/../../div[contains(@class, 'product-name')]/a")
-    private WebElement nameOfProduct;
-
-    @FindBy(xpath = "//a[contains(text(), 'Detroit')]/../../div[contains(@class, 'product-name')]/a")
-    private WebElement priceOfProduct;
-
-    @FindBy(xpath = "//button[@class='buy-button']/../../div/div[contains(@class, 'info-block')]/div/div[@class='price']/div/span[@class='price__current']")
-    private WebElement forSearch;
-
     @FindBy(xpath = "//a[@class='cart-items__product-name-link']")
     private List<WebElement> products;
+
 
     public BucketPage checkWarrantyPeriod(String month) {
         Assertions.assertTrue(warrantyPeriod.getText().contains(month), "Гарантия не выбрана");
@@ -60,7 +44,9 @@ public class BucketPage extends BasePage {
             if (element.getText().toLowerCase().contains(name.toLowerCase())) {
                 WebElement element1 = element.findElement(By.xpath("./../../div/div[contains(@class, 'product-wrapper')]/button[contains(text(), 'Удалить')]"));
                 Product.list.remove(Product.list.size() - 1);
+                waitUntilElementToBeClickable(element1);
                 element1.click();
+                waitUntilInvisibilityOf(element1);
                 return pageManager.getBucketPage();
             }
         }
@@ -69,7 +55,6 @@ public class BucketPage extends BasePage {
     }
 
     public BucketPage checkPriceAfterDelete() {
-        sleep(1000);
         String s = priceAfterAddTwo.getText();
         int priceSumInt = strToInt(s);
         Assertions.assertEquals(priceSumInt, Product.list.get(1).getPrice(), "Сумма не совпадает");
@@ -104,7 +89,7 @@ public class BucketPage extends BasePage {
                 WebElement elemnt1 = element.findElement(By.xpath("./../../../../../div[contains(@class, 'block-amount')]/div[contains(@class, 'product-price')]/div"));
                 String str1 = elemnt1.getText();
                 int str1Int = strToInt(str1);
-                Product.list.add(new Product(name, str1Int));
+                Product.list.add(new Product(element.getText(), str1Int));
                 return pageManager.getBucketPage();
             }
         }

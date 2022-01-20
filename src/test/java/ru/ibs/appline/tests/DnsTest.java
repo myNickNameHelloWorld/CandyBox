@@ -31,7 +31,7 @@ public class DnsTest extends BaseDnsTests {
                 .returnDetroit("Detroit")
                 .checkSumPriceAfterReturn();
 
-        for (Product product: Product.list) {
+        for (Product product : Product.list) {
             System.out.println(product.getName() + " / " + product.getPrice() + " / " + product.getWarranty());
         }
     }

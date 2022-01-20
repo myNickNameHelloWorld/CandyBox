@@ -15,8 +15,6 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//div[@class='products-page__top-block']")
     private WebElement forWait;
 
-    @FindBy(xpath = "//nav[@id='header-search']/div/div/form/div/input")
-    private WebElement search;
 
     public ProductPage clickProductInSearch(String nameProductForSearch) {
         waitUntilElementToBeClickable(forWait);

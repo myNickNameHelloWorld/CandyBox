@@ -17,9 +17,6 @@ public class ProductPage extends BasePage {
     @FindBy(xpath = "//div[@class='product-card-top__buy']/div/div/div[contains(@class,'buy__price')]")
     private WebElement savePrice;
 
-    @FindBy(xpath = "//div[@class='additional-sales-tabs__title']")
-    private WebElement warrantyMenu;
-
     @FindBy(xpath = "//label[contains(@class, 'ui-radio__item')]")
     private List<WebElement> selectWarranty;
 
@@ -40,8 +37,6 @@ public class ProductPage extends BasePage {
 
     @FindBy(xpath = "//div[@class='additional-sales-tabs__titles-wrap']")
     private WebElement warrantyAndOtherMenu;
-
-
 
 
     public ProductPage savePrice() {

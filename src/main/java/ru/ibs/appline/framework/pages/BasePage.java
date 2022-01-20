@@ -1,10 +1,7 @@
 package ru.ibs.appline.framework.pages;
 
-import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,9 +19,6 @@ public class BasePage {
     public BasePage() {
         PageFactory.initElements(driverManager.getWebDriver(), this);
     }
-
-
-
 
 
     protected void scrollToElementJs(WebElement element) {
@@ -46,7 +40,9 @@ public class BasePage {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    protected Actions action = new Actions(driverManager.getWebDriver());
+    protected void waitUntilInvisibilityOf(WebElement element) {
+        wait.until(ExpectedConditions.invisibilityOf(element));
+    }
 
     protected int strToInt(String str) {
         str = str.replaceAll("[^0-9]", "");
