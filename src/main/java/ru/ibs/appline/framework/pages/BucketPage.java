@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.ibs.appline.framework.product.Product;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class BucketPage extends BasePage {
 
     @FindBy(xpath = "//a[@class='cart-items__product-name-link']")
     private List<WebElement> products;
+
 
 
     public BucketPage checkWarrantyPeriod(String month) {
@@ -78,14 +80,14 @@ public class BucketPage extends BasePage {
         return pageManager.getBucketPage();
     }
 
-    public BucketPage returnDetroit(String name) {
+    public BucketPage returnProduct(String name) {
         scrollToElementJs(clickReturnJs);
         waitUntilElementToBeClickable(clickReturnJs);
         clickElementJs(clickReturnJs);
         sleep(1000);
-
         for (WebElement element : products) {
             if (element.getText().toLowerCase().contains(name.toLowerCase())) {
+                waitUntilElementToBeClickable(element);
                 WebElement elemnt1 = element.findElement(By.xpath("./../../../../../div[contains(@class, 'block-amount')]/div[contains(@class, 'product-price')]/div"));
                 String str1 = elemnt1.getText();
                 int str1Int = strToInt(str1);

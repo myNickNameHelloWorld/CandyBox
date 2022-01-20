@@ -11,7 +11,7 @@ public class DnsTest extends BaseDnsTests {
     public void test() {
         pageManager.getStartPage()
                 .searchProduct("nintendo switch")
-                .clickProductInSearch("Консоль")
+                .clickProductInSearch("консоль")
                 .savePrice()
                 .clickWarranty("24")
                 //.savePriceWithWarranty()
@@ -28,11 +28,10 @@ public class DnsTest extends BaseDnsTests {
                 .checkPriceAfterDelete()
                 .addProduct(2)
                 .checkPriceAfterAdd(2)
-                .returnDetroit("Detroit")
+                .returnProduct("Detroit")
                 .checkSumPriceAfterReturn();
-
         for (Product product : Product.list) {
-            System.out.println(product.getName() + " / " + product.getPrice() + " / " + product.getWarranty());
+            System.out.println(product.getName() + " / " + product.getPrice() + " ₽" + " / " + product.getWarranty());
         }
     }
 }

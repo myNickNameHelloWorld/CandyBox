@@ -36,12 +36,16 @@ public class BasePage {
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    protected void waitUntilVisibilityOf(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+    protected WebElement waitUntilVisibilityOf(WebElement element) {
+        return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    protected void waitUntilInvisibilityOf(WebElement element) {
-        wait.until(ExpectedConditions.invisibilityOf(element));
+    protected WebElement waitUntilTextToBePresent(WebElement element, String text) {
+        return wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    protected Boolean waitUntilInvisibilityOf(WebElement element) {
+        return wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
     protected int strToInt(String str) {
