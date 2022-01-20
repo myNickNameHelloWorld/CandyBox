@@ -23,6 +23,7 @@
         <junit-platform-launcher.version>1.8.2</junit-platform-launcher.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
+        <allure-junit5.version>2.13.8</allure-junit5.version>
         <aspectj.version>1.9.6</aspectj.version>
     </properties>
 
@@ -50,7 +51,7 @@
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
-            <version>2.13.8</version>
+            <version>${allure-junit5.version}</version>
         </dependency>
 
     </dependencies>
