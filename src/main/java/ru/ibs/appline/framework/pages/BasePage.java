@@ -20,49 +20,54 @@ public class BasePage {
         PageFactory.initElements(driverManager.getWebDriver(), this);
     }
 
-
-    protected void scrollToElementJs(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) driverManager.getWebDriver();
-        js.executeScript("arguments[0].scrollIntoView();", element);
+    protected void fillInputField(WebElement field, String value) {
+        waitUntilElementToBeClickable(field).click();
+        field.clear();
+        field.sendKeys(value);
     }
 
-    protected WebElement clickElementJs(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) driverManager.getWebDriver();
-        js.executeScript("arguments[0].click();", element);
-        return element;
-    }
+//    protected void scrollToElementJs(WebElement element) {
+//        JavascriptExecutor js = (JavascriptExecutor) driverManager.getWebDriver();
+//        js.executeScript("arguments[0].scrollIntoView();", element);
+//    }
+
+//    protected WebElement clickElementJs(WebElement element) {
+//        JavascriptExecutor js = (JavascriptExecutor) driverManager.getWebDriver();
+//        js.executeScript("arguments[0].click();", element);
+//        return element;
+//    }
 
     protected WebElement waitUntilElementToBeClickable(WebElement element) {
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    protected WebElement waitUntilVisibilityOf(WebElement element) {
-        return wait.until(ExpectedConditions.visibilityOf(element));
-    }
+//    protected WebElement waitUntilVisibilityOf(WebElement element) {
+//        return wait.until(ExpectedConditions.visibilityOf(element));
+//    }
 
-    protected WebElement waitUntilTextToBePresent(WebElement element, String text) {
-        return wait.until(ExpectedConditions.visibilityOf(element));
-    }
+//    protected WebElement waitUntilTextToBePresent(WebElement element, String text) {
+//        return wait.until(ExpectedConditions.visibilityOf(element));
+//    }
 
-    protected Boolean waitUntilInvisibilityOf(WebElement element) {
-        return wait.until(ExpectedConditions.invisibilityOf(element));
-    }
+//    protected Boolean waitUntilInvisibilityOf(WebElement element) {
+//        return wait.until(ExpectedConditions.invisibilityOf(element));
+//    }
 
-    protected int strToInt(String str) {
-        str = str.replaceAll("[^0-9]", "");
-        return Integer.parseInt(str);
-    }
+//    protected int strToInt(String str) {
+//        str = str.replaceAll("[^0-9]", "");
+//        return Integer.parseInt(str);
+//    }
 
-    protected void waitUntilSwitchText(WebElement element) {
-        String str = element.getText();
-        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(element, str)));
-    }
-
-    protected void sleep(int millsec) {
-        try {
-            Thread.sleep(millsec);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+//    protected void waitUntilSwitchText(WebElement element) {
+//        String str = element.getText();
+//        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(element, str)));
+//    }
+//
+//    protected void sleep(int millsec) {
+//        try {
+//            Thread.sleep(millsec);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

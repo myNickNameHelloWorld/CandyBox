@@ -1,16 +1,14 @@
 package ru.ibs.appline.framework.managers;
 
-import ru.ibs.appline.framework.pages.BucketPage;
-import ru.ibs.appline.framework.pages.ProductPage;
-import ru.ibs.appline.framework.pages.SearchPage;
+import ru.ibs.appline.framework.pages.MortgageCalculatorPage;
+import ru.ibs.appline.framework.pages.MortgagePage;
 import ru.ibs.appline.framework.pages.StartPage;
 
 public class PageManager {
     private static PageManager INSTANCE;
     private StartPage startPage;
-    private ProductPage productPage;
-    private SearchPage searchPage;
-    private BucketPage bucketPage;
+    private MortgagePage mortgagePage;
+    private MortgageCalculatorPage mortgageCalculatorPage;
 
 
     private PageManager() {
@@ -31,24 +29,18 @@ public class PageManager {
         return startPage;
     }
 
-    public ProductPage getProductPage() {
-        if (productPage == null) {
-            productPage = new ProductPage();
+    public MortgagePage getMortgagePage() {
+        if (mortgagePage == null) {
+            mortgagePage = new MortgagePage();
         }
-        return productPage;
+        return mortgagePage;
     }
 
-    public SearchPage getSearchPage() {
-        if (searchPage == null) {
-            searchPage = new SearchPage();
+    public MortgageCalculatorPage getMortgageCalculatorPage() {
+        if (mortgageCalculatorPage == null) {
+            mortgageCalculatorPage = new MortgageCalculatorPage();
         }
-        return searchPage;
+        return mortgageCalculatorPage;
     }
 
-    public BucketPage getBucketPage() {
-        if (bucketPage == null) {
-            bucketPage = new BucketPage();
-        }
-        return bucketPage;
-    }
 }

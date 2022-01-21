@@ -1,20 +1,33 @@
 package ru.ibs.appline.framework.pages;
 
-import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class StartPage extends BasePage {
 
-    @FindBy(xpath = "//form[@class='presearch']/div/input[contains(@placeholder, 'Поиск')]")
-    private WebElement searchInput;
+    @FindBy(xpath = "//a[contains(@aria-label, 'Ипотека')]")
+    private WebElement clickMortgage;
+
+    @FindBy(xpath = "//li[@class='kitt-top-menu__item']/a[contains(@href, 'homenew')]")
+    private WebElement clickAllMortgage;
+
+    @FindBy(xpath = "//button[@class='kitt-cookie-warning__close']")
+    private WebElement closeCookies;
 
 
-    public SearchPage searchProduct(String nameProduct) {
-        searchInput.sendKeys(nameProduct, Keys.ENTER);
-        Assertions.assertEquals(nameProduct, searchInput.getAttribute("value"), "Наименование продукта " + nameProduct + " в графе поиск заполнено некорректно");
-        return pageManager.getSearchPage();
+    public StartPage clickCloseCookies() {
+        waitUntilElementToBeClickable(closeCookies).click();
+        return pageManager.getStartPage();
+    }
+
+    public StartPage clickMortgageMenu() {;
+        clickMortgage.click();
+        return pageManager.getStartPage();
+    }
+
+    public MortgagePage clickAllMortgageProducts() {
+        waitUntilElementToBeClickable(clickAllMortgage).click();
+        return pageManager.getMortgagePage();
     }
 
 }
