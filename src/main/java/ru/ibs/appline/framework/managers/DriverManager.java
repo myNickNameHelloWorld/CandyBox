@@ -1,9 +1,16 @@
 package ru.ibs.appline.framework.managers;
 
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.ProfilesIni;
 import ru.ibs.appline.framework.utils.PropsConst;
+
+import java.io.File;
 
 public class DriverManager {
     private static DriverManager INSTANCE = null;
@@ -39,14 +46,16 @@ public class DriverManager {
 
         if (testPropManager.getProperty(PropsConst.TYPE_BROWSER).equals("firefox")) {
             System.setProperty("webdriver.gecko.driver", testPropManager.getProperty(PropsConst.PATH_GECKO_DRIVER));
+//            FirefoxProfile ffp = new FirefoxProfile(new File("C:\\Users\\Admin\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\6gg4lnvq.default-release-1642532833272"));
+//            FirefoxOptions opt = new FirefoxOptions();
+//            opt.setProfile(ffp);
             webDriver = new FirefoxDriver();
         } else if (testPropManager.getProperty(PropsConst.TYPE_BROWSER).equals("chrome")) {
             System.setProperty("webdriver.chrome.driver", testPropManager.getProperty(PropsConst.PATH_CHROME_DRIVER));
+//            ChromeOptions options = new ChromeOptions();
+//            options.addArguments("--user-data-dir=C:\\Users\\Admin\\AppData\\Local\\Google\\Chrome\\User Data");
             webDriver = new ChromeDriver();
         }
-//        webDriver.manage().window().maximize();
-//        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
-//        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
 }

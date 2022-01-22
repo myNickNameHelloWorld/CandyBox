@@ -22,18 +22,26 @@ public class MortgageCalculatorPage extends BasePage {
     @FindBy(xpath = "//div[contains(@data-test-id, 'main-results')]/div/div/ul")
     private WebElement containerResults;
 
+    @FindBy(xpath = "//iframe[@id='iFrameResizer0']")
+    private WebElement switchIframe;
 
-//    public MortgageCalculatorPage checkTitle() {
-//        waitUntilElementToBeClickable(propertyValues);
-//        String title = driverManager.getWebDriver().getTitle();
-//        Assertions.assertEquals(title, "Ипотека  — СберБанк", "Страница 'Ипотека' не открыта");
-//        return pageManager.getMortgageCalculatorPage();
-//    }
+    @FindBy(xpath = "//input[contains(@value, 'Готовое')]")
+    private WebElement forScroll;
+
+
+    public MortgageCalculatorPage checkTitle() {
+        driverManager.getWebDriver().switchTo().frame(switchIframe);
+        waitUntilElementToBeClickable(propertyValues);
+        String title = driverManager.getWebDriver().getTitle();
+        Assertions.assertEquals(title, "Ипотека на вторичное жилье — СберБанк", "Страница 'Ипотека' не открыта");
+        return pageManager.getMortgageCalculatorPage();
+    }
 
     public MortgageCalculatorPage fillFieldPropertyValues(String nameField, String value) {
         WebElement element = null;
         switch (nameField) {
             case "Стоимость недвижимости":
+                scrollToElementJs(forScroll);
                 fillInputField(propertyValues, value);
                 element = propertyValues;
                 break;
@@ -53,34 +61,37 @@ public class MortgageCalculatorPage extends BasePage {
     }
 
     public MortgageCalculatorPage clickCheckboxInsurance() {
-        waitUntilElementToBeClickable(insuranceCheckBox);
+        scrollToElementJs(creditPeriod);
+        sleep(1000);
         insuranceCheckBox.click();
         return pageManager.getMortgageCalculatorPage();
     }
 
     public MortgageCalculatorPage checkPropertyValues() {
-        WebElement checkProperty = containerResults.findElement(By.xpath("./li[contains(@data-e2e-id, 'credit-sum')]/div/span[contains(@class, 'value')]"));
+        scrollToElementJs(forScroll);
+        sleep(1000);
+        WebElement checkProperty = containerResults.findElement(By.xpath("./li[contains(@data-e2e-id, 'credit-sum')]/div/span[2]"));
         String checkPropertyStr = checkProperty.getText();
         Assertions.assertEquals(checkPropertyStr, "2 122 000 ₽", "Сумма отличается");
         return pageManager.getMortgageCalculatorPage();
     }
 
     public MortgageCalculatorPage checkInitialPayment() {
-        WebElement checkInitialPaymentEl = containerResults.findElement(By.xpath("./li[contains(@data-e2e-id, 'monthly-payment')]/div/span[contains(@class, 'value')]"));
+        WebElement checkInitialPaymentEl = containerResults.findElement(By.xpath("./li[contains(@data-e2e-id, 'monthly-payment')]/div/span[2]"));
         String checkInitialPaymentStr = checkInitialPaymentEl.getText();
         Assertions.assertEquals(checkInitialPaymentStr, "19 094 ₽", "Сумма ежемесечного платежа отличается");
         return pageManager.getMortgageCalculatorPage();
     }
 
     public MortgageCalculatorPage checkRequiredIncome() {
-        WebElement checkRequiredIncomeEl = containerResults.findElement(By.xpath("./../../../div[contains(@class, 'bottomLine')]/div/div/span[contains(@class, 'value')]"));
+        WebElement checkRequiredIncomeEl = containerResults.findElement(By.xpath("./../../../div[contains(@data-e2e-id, 'bottom')]/div/div/span[2]"));
         String checkRequiredIncomeElStr = checkRequiredIncomeEl.getText();
         Assertions.assertEquals(checkRequiredIncomeElStr, "24 580 ₽", "Сумма необходимого дохода неверена");
         return pageManager.getMortgageCalculatorPage();
     }
 
     public MortgageCalculatorPage checkCreditPercent() {
-        WebElement checkCreditPercentEl = containerResults.findElement(By.xpath("./li[contains(@data-e2e-id, 'credit-rate')]/div/div/div/div/div/div/span[contains(@class, 'value')]/span"));
+        WebElement checkCreditPercentEl = containerResults.findElement(By.xpath("./li[contains(@data-e2e-id, 'credit-rate')]/div/div/div/div/div/div/span[2]/span"));
         String checkCreditPercentElStr = checkCreditPercentEl.getText();
         Assertions.assertEquals(checkCreditPercentElStr, "11%", "Процент по кредиту неверен");
         return pageManager.getMortgageCalculatorPage();
