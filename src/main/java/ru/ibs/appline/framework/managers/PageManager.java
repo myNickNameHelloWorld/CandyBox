@@ -5,7 +5,7 @@ import ru.ibs.appline.framework.pages.MortgagePage;
 import ru.ibs.appline.framework.pages.StartPage;
 
 public class PageManager {
-    private static PageManager INSTANCE;
+    private static PageManager pageManager;
     private StartPage startPage;
     private MortgagePage mortgagePage;
     private MortgageCalculatorPage mortgageCalculatorPage;
@@ -15,11 +15,12 @@ public class PageManager {
 
     }
 
-    public static PageManager getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new PageManager();
+
+    public static PageManager getPageManager() {
+        if (pageManager == null) {
+            pageManager = new PageManager();
         }
-        return INSTANCE;
+        return pageManager;
     }
 
     public StartPage getStartPage() {

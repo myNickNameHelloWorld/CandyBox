@@ -20,7 +20,8 @@ public class StartPage extends BasePage {
         return pageManager.getStartPage();
     }
 
-    public StartPage clickMortgageMenu() {;
+    public StartPage clickMortgageMenu() {
+        ;
         clickMortgage.click();
         return pageManager.getStartPage();
     }

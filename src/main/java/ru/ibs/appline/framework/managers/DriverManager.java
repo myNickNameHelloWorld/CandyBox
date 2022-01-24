@@ -1,21 +1,14 @@
 package ru.ibs.appline.framework.managers;
 
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.firefox.ProfilesIni;
 import ru.ibs.appline.framework.utils.PropsConst;
-
-import java.io.File;
 
 public class DriverManager {
     private static DriverManager INSTANCE = null;
     private WebDriver webDriver;
-    TestPropManager testPropManager = TestPropManager.getInstance();
+    TestPropManager testPropManager = TestPropManager.getTestPropManager();
 
     private DriverManager() {
 

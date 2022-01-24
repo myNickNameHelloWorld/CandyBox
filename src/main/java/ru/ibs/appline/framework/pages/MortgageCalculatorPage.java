@@ -1,7 +1,6 @@
 package ru.ibs.appline.framework.pages;
 
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -56,7 +55,7 @@ public class MortgageCalculatorPage extends BasePage {
             default:
                 Assertions.fail("Поле с наименованием '" + nameField + "' отсутствует на странице");
         }
-        Assertions.assertEquals(element.getAttribute("value"), value, "Поле было заполненно не корректно");
+        Assertions.assertEquals(element.getAttribute("value").replaceAll("\\D", ""), value, "Поле было заполненно не корректно");
         return this;
     }
 
@@ -67,33 +66,24 @@ public class MortgageCalculatorPage extends BasePage {
         return pageManager.getMortgageCalculatorPage();
     }
 
-    public MortgageCalculatorPage checkPropertyValues() {
-        scrollToElementJs(forScroll);
-        sleep(1000);
-        WebElement checkProperty = containerResults.findElement(By.xpath("./li[contains(@data-e2e-id, 'credit-sum')]/div/span[2]"));
-        String checkPropertyStr = checkProperty.getText();
-        Assertions.assertEquals(checkPropertyStr, "2 122 000 ₽", "Сумма отличается");
-        return pageManager.getMortgageCalculatorPage();
-    }
-
-    public MortgageCalculatorPage checkInitialPayment() {
-        WebElement checkInitialPaymentEl = containerResults.findElement(By.xpath("./li[contains(@data-e2e-id, 'monthly-payment')]/div/span[2]"));
-        String checkInitialPaymentStr = checkInitialPaymentEl.getText();
-        Assertions.assertEquals(checkInitialPaymentStr, "19 094 ₽", "Сумма ежемесечного платежа отличается");
-        return pageManager.getMortgageCalculatorPage();
-    }
-
-    public MortgageCalculatorPage checkRequiredIncome() {
-        WebElement checkRequiredIncomeEl = containerResults.findElement(By.xpath("./../../../div[contains(@data-e2e-id, 'bottom')]/div/div/span[2]"));
-        String checkRequiredIncomeElStr = checkRequiredIncomeEl.getText();
-        Assertions.assertEquals(checkRequiredIncomeElStr, "24 580 ₽", "Сумма необходимого дохода неверена");
-        return pageManager.getMortgageCalculatorPage();
-    }
-
-    public MortgageCalculatorPage checkCreditPercent() {
-        WebElement checkCreditPercentEl = containerResults.findElement(By.xpath("./li[contains(@data-e2e-id, 'credit-rate')]/div/div/div/div/div/div/span[2]/span"));
-        String checkCreditPercentElStr = checkCreditPercentEl.getText();
-        Assertions.assertEquals(checkCreditPercentElStr, "11%", "Процент по кредиту неверен");
-        return pageManager.getMortgageCalculatorPage();
+    public MortgageCalculatorPage checkFieldOnPage(String nameField) {
+        WebElement element = containerResults;
+        switch (nameField) {
+            case "Сумма кредита":
+                checkField(element, "./li[contains(@data-e2e-id, 'credit-sum')]/div/span[2]", "2122000");
+                break;
+            case "Ежемесячный платеж":
+                checkField(element, "./li[contains(@data-e2e-id, 'monthly-payment')]/div/span[2]", "19094");
+                break;
+            case "Необходимый доход":
+                checkField(element, "./../../../div[contains(@data-e2e-id, 'bottom')]/div/div/span[2]", "24580");
+                break;
+            case "Процентная ставка":
+                checkField(element, "./li[contains(@data-e2e-id, 'credit-rate')]/div/div/div/div/div/div/span[2]/span", "11%");
+                break;
+            default:
+                Assertions.fail("Не найдено " + nameField);
+        }
+        return this;
     }
 }
