@@ -6,13 +6,14 @@ import org.openqa.selenium.support.FindBy;
 
 public class MortgageCalculatorPage extends BasePage {
 
-    @FindBy(xpath = "//div[contains(text(), 'Стоимость')]/../input")
+//    @FindBy(xpath = "//div[contains(text(), 'Стоимость')]/../input")
+    @FindBy(xpath = "//label[contains(text(), 'Стоимость')]/../input")
     private WebElement propertyValues;
 
-    @FindBy(xpath = "//div[contains(text(), 'Первоначальный')]/../input")
+    @FindBy(xpath = "//label[contains(text(), 'Первоначальный')]/../input")
     private WebElement initialPayment;
 
-    @FindBy(xpath = "//div[contains(text(), 'Срок')]/../input")
+    @FindBy(xpath = "//label[contains(text(), 'Срок')]/../input")
     private WebElement creditPeriod;
 
     @FindBy(xpath = "//span[contains(text(), 'Страхование')]/../../span/label/div/input")
