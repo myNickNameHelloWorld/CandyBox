@@ -3,7 +3,12 @@ package ru.ibs.appline.framework.managers;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import ru.ibs.appline.framework.utils.PropsConst;
+
+import java.net.MalformedURLException;
+import java.net.URI;
 
 public class DriverManager {
     private static DriverManager INSTANCE = null;
@@ -48,7 +53,21 @@ public class DriverManager {
 //            ChromeOptions options = new ChromeOptions();
 //            options.addArguments("--user-data-dir=C:\\Users\\Admin\\AppData\\Local\\Google\\Chrome\\User Data");
             webDriver = new ChromeDriver();
+        } else if (testPropManager.getProperty(PropsConst.TYPE_BROWSER).equals("remote")) {
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setBrowserName("firefox");
+            capabilities.setVersion("66.0");
+            capabilities.setCapability("enableVNC", true);
+            capabilities.setCapability("enableVideo", false);
+
+            try {
+                RemoteWebDriver driver = new RemoteWebDriver(
+                        URI.create("http://selenoid.appline.ru:4445/wd/hub").toURL(),
+                        capabilities
+                );
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 }
