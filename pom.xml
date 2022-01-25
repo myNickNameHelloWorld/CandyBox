@@ -27,6 +27,7 @@
         <aspectj.version>1.9.6</aspectj.version>
         <cucumber-java.version>6.11.0</cucumber-java.version>
         <cucumber-junit.version>6.11.0</cucumber-junit.version>
+        <tests></tests>
     </properties>
 
 
