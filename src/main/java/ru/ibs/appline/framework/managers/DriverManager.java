@@ -56,13 +56,13 @@ public class DriverManager {
         } else if (testPropManager.getProperty(PropsConst.TYPE_BROWSER).equals("remote")) {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setBrowserName("firefox");
-            capabilities.setVersion("66.0");
+            capabilities.setVersion("75.0");
             capabilities.setCapability("enableVNC", true);
             capabilities.setCapability("enableVideo", false);
 
             try {
                 webDriver = new RemoteWebDriver(
-                        URI.create("http://selenoid.appline.ru:4445/wd/hub").toURL(),
+                        URI.create("http://164.92.227.174:4444/wd/hub").toURL(),
                         capabilities
                 );
             } catch (MalformedURLException e) {
