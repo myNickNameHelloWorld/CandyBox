@@ -20,7 +20,8 @@
 
         <selenium-java.version>4.1.0</selenium-java.version>
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
-        <junit-platform-launcher.version>1.8.2</junit-platform-launcher.version>
+        <junit-platform-runner.version>1.8.2</junit-platform-runner.version>
+        <junit-vintage-engine.version>5.8.2</junit-vintage-engine.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
         <allure-cucumber6-jvm>2.16.0</allure-cucumber6-jvm>
@@ -47,7 +48,7 @@
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-runner</artifactId>
-            <version>1.8.2</version>
+            <version>${junit-platform-runner.version}</version>
         </dependency>
 
 
@@ -55,7 +56,7 @@
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>5.8.2</version>
+            <version>${junit-vintage-engine.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
@@ -72,11 +73,6 @@
             <version>${cucumber-junit.version}</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>io.cucumber</groupId>-->
-<!--            <artifactId>cucumber-junit-platform-engine</artifactId>-->
-<!--            <version>6.11.0</version>-->
-<!--        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber6-jvm -->
         <dependency>
