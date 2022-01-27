@@ -16,7 +16,8 @@ public class SearchPage extends BasePage {
         for (WebElement element : searchProductsList) {
             if (element.getText().toLowerCase().contains(nameProductForSearch.toLowerCase())) {
                 waitUntilElementToBeClickable(element);
-                element.click();
+                actionsActions(element);
+                //element.click();
                 return pageManager.getProductPage();
             }
         }

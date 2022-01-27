@@ -2,6 +2,7 @@ package ru.ibs.appline.framework.pages;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -56,6 +57,11 @@ public class BasePage {
     protected void waitUntilSwitchText(WebElement element) {
         String str = element.getText();
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(element, str)));
+    }
+
+    public void actionsActions(WebElement element) {
+        Actions actions = new Actions(driverManager.getWebDriver());
+        actions.moveToElement(element).click(element).build().perform();
     }
 
     protected void sleep(int millsec) {
